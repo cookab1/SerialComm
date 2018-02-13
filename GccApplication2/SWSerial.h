@@ -22,5 +22,6 @@ void switchBaud(long);
 void sw_serial_puts(char *);
 char sw_serial_getc(void);
 void BITBANG(int);
+int find(int);
 
 #endif /* SWSERIAL_H_ */

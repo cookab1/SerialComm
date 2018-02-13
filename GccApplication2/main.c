@@ -39,7 +39,7 @@ int main(void) {
 		char c = sw_serial_getc();
 		// convert any alpha char c to opposite case
 		// you'll need a little code here to do this...
-		c = change_case(c);
+		//c = change_case(c);
 		sw_serial_putc(c);
 		test_sw_serial_getc();   // library test function
 	}
@@ -64,15 +64,4 @@ char sw_serial_getc(void) {
 		delay_usec(104);
 	}
 	return c;
-}
-void BITBANG(int b) {
-	if (b) {
-		// ON
-		PORTB |= txPin;
-	}
-	else {
-		// OFF
-		PORTB &= ~txPin;
-	}
-	delay_usec(104);
 }

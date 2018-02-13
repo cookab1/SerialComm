@@ -37,8 +37,6 @@ void init_sw_serial(int rx_pin, int tx_pin, long baudrate, int frameing) {
 	//switchBaud(baudrate);
 	frameParam = frameing;
 	bitTime = 104;
-	if(bitTime == 104)
-		sw_serial_putc('m');
 	//(1000000L / baudrate);
 }
 
