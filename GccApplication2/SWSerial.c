@@ -12,6 +12,8 @@
 
 void delay_usec(unsigned int);
 
+static int pin[] = {53, 52, 51, 50, 10, 11, 12, 13};
+
 void init_sw_serial(int rx_pin, int tx_pin, long baudrate, int framing) {
 	rxPin = find(rx_pin);
 	txPin = find(tx_pin);

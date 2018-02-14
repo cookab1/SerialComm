@@ -9,7 +9,7 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Problem2", "GccApplication1
 EndProject
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Problem3", "GccApplication2\Problem3.cproj", "{8D141F63-110F-443C-9A89-8BA3883E18AE}"
 EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Problem1", "..\..\..\..\Downloads\SoftwareSerial\SoftwareSerial\SoftwareSerial\Problem1.cproj", "{9F01E8AE-DFB2-4B08-BD31-782E154B0021}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Problem1", "SoftwareSerial\SoftwareSerial\Problem1.cproj", "{9F01E8AE-DFB2-4B08-BD31-782E154B0021}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
