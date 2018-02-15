@@ -34,28 +34,28 @@ void PSerial_open(unsigned char portNum, long speed, int framing) {
 	baudrate = speed;
 	serial_port[port]->ubrr = setUBRR(baudrate);
 	serial_port[port]->ucsrc = framing;
+	//enable the receiving
+	//UCSRnB bit 4
+	serial_port[port]->ucsrb |= (1 << 4);
+	//enable the transmitting
+	//UCSRnB bit 3
+	serial_port[port]->ucsrb |= (1 << 3);
 }
 /*
 UCSRnA 6 is Transmit Complete and 7 is Receive Complete
 UCSRnB 3 is Transmit Enable and 4 is Receive Enable
 */
 char PSerial_read(unsigned char port) {
-	//enable the receiving 
-	//UCSRnB bit 4
-	serial_port[port]->ucsrb |= 1 << 4;
 	char c = 0;
 	while(!(serial_port[port]->ucsra & (1 << 7))) {
-		c = serial_port[port]->udr; //c = read in the data;
 	}
+	c = serial_port[port]->udr; //c = read in the data;
 	return c;
 }
 void PSerial_write(unsigned char port, char data) {
-	//enable the transmitting
-	//UCSRnB bit 3
-	serial_port[port]->ucsrb |= 1 << 3;
-	while(!(serial_port[port]->ucsra & (1 << 6))) {
-		serial_port[port]->udr = data; //write in the data = data;
+	while(!(serial_port[port]->ucsra & (1 << 5))) {
 	}
+	serial_port[port]->udr = data; //write in the data = data;
 }
 int setUBRR(long baud) {
 	switch(baud){
