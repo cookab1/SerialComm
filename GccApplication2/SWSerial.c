@@ -17,7 +17,7 @@ static int pin[] = {53, 52, 51, 50, 10, 11, 12, 13};
 void init_sw_serial(int rx_pin, int tx_pin, long baudrate, int framing) {
 	rxPin = find(rx_pin);
 	txPin = find(tx_pin);
-	switchBaud(baudrate);
+	bitTime = (1 / baudrate) * 1000000;
 	frameParam = framing;
 }
 
@@ -41,20 +41,16 @@ void sw_serial_puts(char *str) {
 	}
 }
 
-void switchBaud(long baudrate) {
-	//bitTime = (1 / baudrate) * 1000000;
-}
-
 void BITBANG(int b) {
 	if (b) {
 		// ON
-		PORTB |= txPin;
+		PORTB |= 1 << txPin;
 	}
 	else {
 		// OFF
-		PORTB &= ~txPin;
+		PORTB &= ~(1 << txPin);
 	}
-	delay_usec(104);
+	delay_usec(bitTime);
 }
 
 int find(int tPin) {

@@ -9,8 +9,7 @@
 #ifndef SWSERIAL_H_
 #define SWSERIAL_H_
 
-//static long baud;
-//static int bitTime;
+static int bitTime;
 static int rxPin;
 static int txPin;
 

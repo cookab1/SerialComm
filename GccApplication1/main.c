@@ -15,7 +15,6 @@
 #include "string.h"
 
 void delay_usec(unsigned int);
-void BITBANG(int);
 
 
 int main(void) {
@@ -37,16 +36,4 @@ int main(void) {
 		test_sw_serial_puts();   // library test function
 		_delay_ms(1000);
 	}
-}
-
-void BITBANG(int b) {
-	if (b) {
-		// ON
-		PORTB |= 0x40;//tMask;
-	}
-	else {
-		// OFF
-		PORTB &= ~0x40;//tMask;
-	}
-	delay_usec(104);
 }
