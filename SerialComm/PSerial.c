@@ -8,43 +8,78 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdint.h>
+#include "PSerial.h"
 
-char Pserial_open(unsigned char port, long speed, int config);
-char PSerial_read(unsigned char port);
-void PSerial_write(unsigned char port, char data);
 
-typedef {
-	volatile uint8_t ucsra;
-	volatile uint8_t ucsrb;
-	volatile uint8_t ucsrc;
-	volatile uint8_t rsvd;
-	volatile uint16_t ubrr;
-	volatile uint8_t udr;	
-} SERIAL_REGS;*/
-
-SERIAL_REGS * serial_port[] {
-	(SERIAL_REGS *)(0xc0); //serial port0
-	(SERIAL_REGS *)(0xc8); //serial port1
-	(SERIAL_REGS *)(0xd0); //serial port2
-	(SERIAL_REGS *)(0x130);//serial port3	
-};
-
-int main(void)
-{
-    /* Replace with your application code */
-    while (1) 
-    {
-    }
+void PSerial_open(unsigned char portNum, long speed, int framing) {
+	port = portNum;
+	baudrate = speed;
+	serial_port[(int)port]->ubrr = setUBRR(baudrate);
+	serial_port[(int)port]->ucsrc = framing;
 }
-
-char Pserial_open(unsigned char port, long speed, int config) {
-	
-}
+/*
+UCSRnA 6 is Transmit Complete and 7 is Receive Complete
+UCSRnB 3 is Transmit Enable and 4 is Receive Enable
+*/
 char PSerial_read(unsigned char port) {
-	
+	//enable the receiving 
+	//UCSRnB bit 4
+	serial_port[port]->ucsrb |= 1 << 4;
+	char c = 0;
+	while(!(serial_port[port]->ucsra & 0x80)) {
+		c = serial_port[port]->udr; //c = read in the data;
+	}
+	return c;
 }
 void PSerial_write(unsigned char port, char data) {
-	
+	//enable the transmitting
+	//UCSRnB bit 3
+	serial_port[port]->ucsrb |= 1 << 3;
+	while(!(UCSR0A & 0x40)) {
+		serial_port[port]->udr = data; //write in the data = data;
+	}
+}
+int setUBRR(long baud) {
+	switch(baud){
+		case 2400:
+			return 416;
+			break;
+		case 4800:
+			return 207;
+			break;
+		case 9600:
+			return 103;
+			break;
+		case 14400:
+			return 68;
+			break;
+		case 19200:
+			return 51;
+			break;
+		case 28800:
+			return 34;
+			break;
+		case 38400:
+			return 25;
+			break;
+		case 57600:
+			return 16;
+			break;
+		case 76800:
+			return 12;
+			break;
+		case 115200:
+			return 8;
+			break;
+		case 230400:
+			return 3;
+			break;
+		case 250000:
+			return 3;
+			break;
+		default:
+			return -1;
+	}
 }
 
 

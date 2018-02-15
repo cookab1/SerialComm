@@ -7,6 +7,7 @@
 
 #include "SWSerial.h"
 #include <string.h>
+#include <avr/io.h>
 
 static int pin[] = {53, 52, 51, 50, 10, 11, 12, 13};
 	
@@ -46,4 +47,16 @@ int find(int tPin) {
 		return i;
 	}
 	return -1;
+}
+
+void BITBANG(int b) {
+	if (b) {
+		// ON
+		PORTB |= 0x40;//tMask;
+	}
+	else {
+		// OFF
+		PORTB &= ~0x40;//tMask;
+	}
+	delay_usec(104);
 }

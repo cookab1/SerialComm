@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 000001d0  00000000  00000000  00000fa8  2**3
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000231c  00000000  00000000  00001178  2**0
+  6 .debug_info   0000234a  00000000  00000000  00001178  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000011d8  00000000  00000000  00003494  2**0
+  7 .debug_abbrev 000011e3  00000000  00000000  000034c2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001191  00000000  00000000  0000466c  2**0
+  8 .debug_line   000011f3  00000000  00000000  000046a5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000704  00000000  00000000  00005800  2**2
+  9 .debug_frame  00000704  00000000  00000000  00005898  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000a8c  00000000  00000000  00005f04  2**0
+ 10 .debug_str    00000a86  00000000  00000000  00005f9c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00001a7d  00000000  00000000  00006990  2**0
+ 11 .debug_loc    00001a7d  00000000  00000000  00006a22  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000198  00000000  00000000  0000840d  2**0
+ 12 .debug_ranges 00000198  00000000  00000000  0000849f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -266,7 +266,7 @@ L3:		adiw	r24, 33 // 1 cycle
  16a:	70 e0       	ldi	r23, 0x00	; 0
  16c:	8b e0       	ldi	r24, 0x0B	; 11
  16e:	90 e0       	ldi	r25, 0x00	; 0
- 170:	51 d0       	rcall	.+162    	; 0x214 <init_sw_serial>
+ 170:	15 d0       	rcall	.+42     	; 0x19c <init_sw_serial>
 	init_sw_serial_puts_test(baudrate, framing);   // library function: note we need the baudrate and framing here
  172:	46 e0       	ldi	r20, 0x06	; 6
  174:	50 e0       	ldi	r21, 0x00	; 0
@@ -281,7 +281,7 @@ L3:		adiw	r24, 33 // 1 cycle
  180:	80 e3       	ldi	r24, 0x30	; 48
  182:	92 e0       	ldi	r25, 0x02	; 2
 		test_sw_serial_puts();   // library test function
- 184:	2b d0       	rcall	.+86     	; 0x1dc <sw_serial_puts>
+ 184:	34 d0       	rcall	.+104    	; 0x1ee <sw_serial_puts>
  186:	2c d6       	rcall	.+3160   	; 0xde0 <test_sw_serial_puts>
 	#else
 		//round up by default
@@ -300,138 +300,131 @@ L3:		adiw	r24, 33 // 1 cycle
  198:	00 00       	nop
  19a:	f2 cf       	rjmp	.-28     	; 0x180 <main+0x28>
 
-0000019c <BITBANG>:
-		_delay_ms(1000);
+0000019c <init_sw_serial>:
+	for(int i = 0; i < 8; i++) {
+		if(tPin == pin[i])
+		return i;
 	}
+	return -1;
 }
+ 19c:	0f 93       	push	r16
+ 19e:	1f 93       	push	r17
+ 1a0:	10 93 df 03 	sts	0x03DF, r17	; 0x8003df <frameParam+0x1>
+ 1a4:	00 93 de 03 	sts	0x03DE, r16	; 0x8003de <frameParam>
+ 1a8:	1f 91       	pop	r17
+ 1aa:	0f 91       	pop	r16
+ 1ac:	08 95       	ret
+
+000001ae <BITBANG>:
 
 void BITBANG(int b) {
 	if (b) {
- 19c:	89 2b       	or	r24, r25
- 19e:	11 f0       	breq	.+4      	; 0x1a4 <BITBANG+0x8>
+ 1ae:	89 2b       	or	r24, r25
+ 1b0:	11 f0       	breq	.+4      	; 0x1b6 <BITBANG+0x8>
 		// ON
 		PORTB |= 0x40;//tMask;
- 1a0:	2e 9a       	sbi	0x05, 6	; 5
- 1a2:	01 c0       	rjmp	.+2      	; 0x1a6 <BITBANG+0xa>
+ 1b2:	2e 9a       	sbi	0x05, 6	; 5
+ 1b4:	01 c0       	rjmp	.+2      	; 0x1b8 <BITBANG+0xa>
 	}
 	else {
 		// OFF
 		PORTB &= ~0x40;//tMask;
- 1a4:	2e 98       	cbi	0x05, 6	; 5
+ 1b6:	2e 98       	cbi	0x05, 6	; 5
 	}
 	delay_usec(104);
- 1a6:	88 e6       	ldi	r24, 0x68	; 104
- 1a8:	90 e0       	ldi	r25, 0x00	; 0
- 1aa:	bc cf       	rjmp	.-136    	; 0x124 <delay_usec>
- 1ac:	08 95       	ret
+ 1b8:	88 e6       	ldi	r24, 0x68	; 104
+ 1ba:	90 e0       	ldi	r25, 0x00	; 0
+ 1bc:	b3 cf       	rjmp	.-154    	; 0x124 <delay_usec>
+ 1be:	08 95       	ret
 
-000001ae <sw_serial_putc>:
+000001c0 <sw_serial_putc>:
 
 static int pin[] = {53, 52, 51, 50, 10, 11, 12, 13};
 	
 void BITBANG(int);
 
 void sw_serial_putc(char c){
- 1ae:	1f 93       	push	r17
- 1b0:	cf 93       	push	r28
- 1b2:	df 93       	push	r29
- 1b4:	18 2f       	mov	r17, r24
+ 1c0:	1f 93       	push	r17
+ 1c2:	cf 93       	push	r28
+ 1c4:	df 93       	push	r29
+ 1c6:	18 2f       	mov	r17, r24
 	BITBANG(0);
- 1b6:	80 e0       	ldi	r24, 0x00	; 0
- 1b8:	90 e0       	ldi	r25, 0x00	; 0
- 1ba:	f0 df       	rcall	.-32     	; 0x19c <BITBANG>
- 1bc:	c8 e0       	ldi	r28, 0x08	; 8
- 1be:	d0 e0       	ldi	r29, 0x00	; 0
+ 1c8:	80 e0       	ldi	r24, 0x00	; 0
+ 1ca:	90 e0       	ldi	r25, 0x00	; 0
+ 1cc:	f0 df       	rcall	.-32     	; 0x1ae <BITBANG>
+ 1ce:	c8 e0       	ldi	r28, 0x08	; 8
+ 1d0:	d0 e0       	ldi	r29, 0x00	; 0
 	for(int i = 0; i < 8; i++) {
 		BITBANG(c & 1);
- 1c0:	81 2f       	mov	r24, r17
- 1c2:	81 70       	andi	r24, 0x01	; 1
- 1c4:	90 e0       	ldi	r25, 0x00	; 0
- 1c6:	ea df       	rcall	.-44     	; 0x19c <BITBANG>
+ 1d2:	81 2f       	mov	r24, r17
+ 1d4:	81 70       	andi	r24, 0x01	; 1
+ 1d6:	90 e0       	ldi	r25, 0x00	; 0
+ 1d8:	ea df       	rcall	.-44     	; 0x1ae <BITBANG>
 		c >>= 1;
- 1c8:	16 95       	lsr	r17
- 1ca:	21 97       	sbiw	r28, 0x01	; 1
+ 1da:	16 95       	lsr	r17
+ 1dc:	21 97       	sbiw	r28, 0x01	; 1
 	
 void BITBANG(int);
 
 void sw_serial_putc(char c){
 	BITBANG(0);
 	for(int i = 0; i < 8; i++) {
- 1cc:	c9 f7       	brne	.-14     	; 0x1c0 <sw_serial_putc+0x12>
+ 1de:	c9 f7       	brne	.-14     	; 0x1d2 <sw_serial_putc+0x12>
 		BITBANG(c & 1);
 		c >>= 1;
 	}
 	BITBANG(1);
- 1ce:	81 e0       	ldi	r24, 0x01	; 1
- 1d0:	90 e0       	ldi	r25, 0x00	; 0
- 1d2:	e4 df       	rcall	.-56     	; 0x19c <BITBANG>
+ 1e0:	81 e0       	ldi	r24, 0x01	; 1
+ 1e2:	90 e0       	ldi	r25, 0x00	; 0
+ 1e4:	e4 df       	rcall	.-56     	; 0x1ae <BITBANG>
 	
 }
- 1d4:	df 91       	pop	r29
- 1d6:	cf 91       	pop	r28
- 1d8:	1f 91       	pop	r17
- 1da:	08 95       	ret
+ 1e6:	df 91       	pop	r29
+ 1e8:	cf 91       	pop	r28
+ 1ea:	1f 91       	pop	r17
+ 1ec:	08 95       	ret
 
-000001dc <sw_serial_puts>:
+000001ee <sw_serial_puts>:
 
 void sw_serial_puts(char *str) {
- 1dc:	0f 93       	push	r16
- 1de:	1f 93       	push	r17
- 1e0:	cf 93       	push	r28
- 1e2:	df 93       	push	r29
+ 1ee:	0f 93       	push	r16
+ 1f0:	1f 93       	push	r17
+ 1f2:	cf 93       	push	r28
+ 1f4:	df 93       	push	r29
 	int i;
 	int length = strlen(str);
- 1e4:	fc 01       	movw	r30, r24
- 1e6:	01 90       	ld	r0, Z+
- 1e8:	00 20       	and	r0, r0
- 1ea:	e9 f7       	brne	.-6      	; 0x1e6 <sw_serial_puts+0xa>
- 1ec:	31 97       	sbiw	r30, 0x01	; 1
- 1ee:	e8 1b       	sub	r30, r24
- 1f0:	f9 0b       	sbc	r31, r25
+ 1f6:	fc 01       	movw	r30, r24
+ 1f8:	01 90       	ld	r0, Z+
+ 1fa:	00 20       	and	r0, r0
+ 1fc:	e9 f7       	brne	.-6      	; 0x1f8 <sw_serial_puts+0xa>
+ 1fe:	31 97       	sbiw	r30, 0x01	; 1
+ 200:	e8 1b       	sub	r30, r24
+ 202:	f9 0b       	sbc	r31, r25
 	for(i = 0; i < length; i++) {
- 1f2:	1e 16       	cp	r1, r30
- 1f4:	1f 06       	cpc	r1, r31
- 1f6:	4c f4       	brge	.+18     	; 0x20a <sw_serial_puts+0x2e>
- 1f8:	ec 01       	movw	r28, r24
- 1fa:	8c 01       	movw	r16, r24
- 1fc:	0e 0f       	add	r16, r30
- 1fe:	1f 1f       	adc	r17, r31
+ 204:	1e 16       	cp	r1, r30
+ 206:	1f 06       	cpc	r1, r31
+ 208:	4c f4       	brge	.+18     	; 0x21c <sw_serial_puts+0x2e>
+ 20a:	ec 01       	movw	r28, r24
+ 20c:	8c 01       	movw	r16, r24
+ 20e:	0e 0f       	add	r16, r30
+ 210:	1f 1f       	adc	r17, r31
 		sw_serial_putc(str[i]);
- 200:	89 91       	ld	r24, Y+
- 202:	d5 df       	rcall	.-86     	; 0x1ae <sw_serial_putc>
+ 212:	89 91       	ld	r24, Y+
+ 214:	d5 df       	rcall	.-86     	; 0x1c0 <sw_serial_putc>
 }
 
 void sw_serial_puts(char *str) {
 	int i;
 	int length = strlen(str);
 	for(i = 0; i < length; i++) {
- 204:	c0 17       	cp	r28, r16
- 206:	d1 07       	cpc	r29, r17
- 208:	d9 f7       	brne	.-10     	; 0x200 <sw_serial_puts+0x24>
+ 216:	c0 17       	cp	r28, r16
+ 218:	d1 07       	cpc	r29, r17
+ 21a:	d9 f7       	brne	.-10     	; 0x212 <sw_serial_puts+0x24>
 		sw_serial_putc(str[i]);
 	}
 }
- 20a:	df 91       	pop	r29
- 20c:	cf 91       	pop	r28
- 20e:	1f 91       	pop	r17
- 210:	0f 91       	pop	r16
- 212:	08 95       	ret
-
-00000214 <init_sw_serial>:
-
-
-void init_sw_serial(int rx_pin, int tx_pin, long baudrate, int frameing) {
- 214:	0f 93       	push	r16
- 216:	1f 93       	push	r17
-	//rxPin = rx_pin;
-	//tMask = 1 << find(tx_pin);
-	//switchBaud(baudrate);
-	frameParam = frameing;
- 218:	10 93 df 03 	sts	0x03DF, r17	; 0x8003df <frameParam+0x1>
- 21c:	00 93 de 03 	sts	0x03DE, r16	; 0x8003de <frameParam>
-	bitTime = 104;
-	//(1000000L / baudrate);
-}
+ 21c:	df 91       	pop	r29
+ 21e:	cf 91       	pop	r28
  220:	1f 91       	pop	r17
  222:	0f 91       	pop	r16
  224:	08 95       	ret
