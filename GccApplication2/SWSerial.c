@@ -15,8 +15,8 @@ void delay_usec(unsigned int);
 static int pin[] = {53, 52, 51, 50, 10, 11, 12, 13};
 
 void init_sw_serial(int rx_pin, int tx_pin, long baudrate, int framing) {
-	rxPin = find(rx_pin);
-	txPin = find(tx_pin);
+	rMask = 1 << find(rx_pin);
+	tMask = 1 << find(tx_pin);
 	bitTime = (1 / baudrate) * 1000000;
 	frameParam = framing;
 }
@@ -37,18 +37,18 @@ void sw_serial_puts(char *str) {
 	int i;
 	int length = strlen(str);
 	for(i = 0; i < length; i++) {
-		
+		sw_serial_putc(str[i]);
 	}
 }
 
 void BITBANG(int b) {
 	if (b) {
 		// ON
-		PORTB |= 1 << txPin;
+		PORTB |= 1 << tMask;
 	}
 	else {
 		// OFF
-		PORTB &= ~(1 << txPin);
+		PORTB &= ~(1 << tMask);
 	}
 	delay_usec(bitTime);
 }

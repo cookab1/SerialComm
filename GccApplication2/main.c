@@ -19,7 +19,6 @@
 //What does it do in the middle
 
 void delay_usec(unsigned int);
-void change_case(char *c);
 
 int main(void) {
 	//DDRB |= (1 << PB6);
@@ -39,17 +38,14 @@ int main(void) {
 		char c = sw_serial_getc();
 		// convert any alpha char c to opposite case
 		// you'll need a little code here to do this...
-		change_case(&c);
-		sw_serial_putc('u');
+		if (c >= 0x41 && c <= 0x5A) {
+			c += 0x20;
+		}
+		else {
+			c -= 0x20;
+		}
+		sw_serial_putc(c);
 		test_sw_serial_getc();   // library test function
-	}
-}
-void change_case(char *c) {
-	if (*c >= 0x41 && *c <= 0x5A) {
-		*c += 0x20;
-	}
-	else {
-		*c -= 0x20;
 	}
 }
 char sw_serial_getc(void) {

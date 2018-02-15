@@ -10,8 +10,8 @@
 #define SWSERIAL_H_
 
 static int bitTime;
-static int rxPin;
-static int txPin;
+static int rMask;
+static int tMask;
 
 int frameParam;
 
