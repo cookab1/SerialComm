@@ -14,7 +14,7 @@
 
 int main(void)
 {
-	char portNum = 0;
+	unsigned char portNum = 0;
 	long baud = 19200L;
 	int framingParam = SERIAL_8N1;
 	
@@ -22,8 +22,8 @@ int main(void)
 		
     while (1) 
     {
-		char rx_bit = PSerial_read(port);
-		PSerial_write(port, rx_bit);
+		char rx_bit = PSerial_read(portNum);
+		PSerial_write(portNum, rx_bit);
     }
 }
 

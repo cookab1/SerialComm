@@ -10,12 +10,30 @@
 #include <stdint.h>
 #include "PSerial.h"
 
+typedef struct SERIAL_REGS{
+	volatile uint8_t ucsra;
+	volatile uint8_t ucsrb;
+	volatile uint8_t ucsrc;
+	volatile uint8_t rsvd;
+	volatile uint16_t ubrr;
+	volatile uint8_t udr;
+} SERIAL_REGS;
+
+SERIAL_REGS * serial_port[] = {
+	(SERIAL_REGS *)(0xc0), //serial port0
+	(SERIAL_REGS *)(0xc8), //serial port1
+	(SERIAL_REGS *)(0xd0), //serial port2
+	(SERIAL_REGS *)(0x130), //serial port3
+};
+
+static unsigned char port;
+static long baudrate;
 
 void PSerial_open(unsigned char portNum, long speed, int framing) {
 	port = portNum;
 	baudrate = speed;
-	serial_port[(int)port]->ubrr = setUBRR(baudrate);
-	serial_port[(int)port]->ucsrc = framing;
+	serial_port[port]->ubrr = setUBRR(baudrate);
+	serial_port[port]->ucsrc = framing;
 }
 /*
 UCSRnA 6 is Transmit Complete and 7 is Receive Complete
@@ -26,7 +44,7 @@ char PSerial_read(unsigned char port) {
 	//UCSRnB bit 4
 	serial_port[port]->ucsrb |= 1 << 4;
 	char c = 0;
-	while(!(serial_port[port]->ucsra & 0x80)) {
+	while(!(serial_port[port]->ucsra & (1 << 7))) {
 		c = serial_port[port]->udr; //c = read in the data;
 	}
 	return c;
@@ -35,7 +53,7 @@ void PSerial_write(unsigned char port, char data) {
 	//enable the transmitting
 	//UCSRnB bit 3
 	serial_port[port]->ucsrb |= 1 << 3;
-	while(!(UCSR0A & 0x40)) {
+	while(!(serial_port[port]->ucsra & (1 << 6))) {
 		serial_port[port]->udr = data; //write in the data = data;
 	}
 }
