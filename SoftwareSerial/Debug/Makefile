@@ -73,10 +73,14 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 
 LIB_DEP+=  \
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:/Users/andyr/Documents/Atmel\ Studio/SerialComm/SerialComm/libEmSysLib.a
 =======
 C:/Users/cookab1/Downloads/SoftwareSerial/SoftwareSerial/SoftwareSerial/libEmSysLib.a
 >>>>>>> 8c1186f3b94d135e148c49e0191ba0b91e23e0fc
+=======
+C:/Users/andyr/Documents/Atmel\ Studio/SerialComm/SerialComm/libEmSysLib.a
+>>>>>>> finished
 
 LINKER_SCRIPT_DEP+= 
 

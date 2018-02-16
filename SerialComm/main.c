@@ -33,7 +33,7 @@ int main(void)
 	portNum = 0;
 	baud = 19200L;
 	framingParam = SERIAL_8N1;
-	int daisyChain = 1;
+	int daisyChain = 0; //to turn on daisy chain, set to 1
 	
 	if(daisyChain) {
 		for(int i = 0; i < 4; i++)
@@ -57,16 +57,16 @@ void daisy_chain_Test() {
 
 	char rx_bit = PSerial_read(0);
 	PSerial_write(1, rx_bit);
-	rx_bit = PSerial_read(1);
-	PSerial_write(0, rx_bit);
-	/*	
 	rx_bit = PSerial_read(2);
 	PSerial_write(2, rx_bit);
 	rx_bit = PSerial_read(3);
 	PSerial_write(3, rx_bit);
 	rx_bit = PSerial_read(1);
 	PSerial_write(0, rx_bit);
+<<<<<<< HEAD
 	*/
 >>>>>>> 8c1186f3b94d135e148c49e0191ba0b91e23e0fc
+=======
+>>>>>>> finished
 }
 
