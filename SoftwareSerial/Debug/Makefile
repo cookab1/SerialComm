@@ -72,7 +72,7 @@ ADDITIONAL_DEPENDENCIES:=
 OUTPUT_FILE_DEP:= ./makedep.mk
 
 LIB_DEP+=  \
-C:/Users/cookab1/Downloads/SoftwareSerial/SoftwareSerial/SoftwareSerial/libEmSysLib.a
+C:/Users/andyr/Documents/Atmel\ Studio/SerialComm/SerialComm/libEmSysLib.a
 
 LINKER_SCRIPT_DEP+= 
 

@@ -45,15 +45,11 @@ void daisy_chain_Test() {
 
 	char rx_bit = PSerial_read(0);
 	PSerial_write(1, rx_bit);
-	rx_bit = PSerial_read(1);
-	PSerial_write(0, rx_bit);
-	/*	
 	rx_bit = PSerial_read(2);
 	PSerial_write(2, rx_bit);
 	rx_bit = PSerial_read(3);
 	PSerial_write(3, rx_bit);
 	rx_bit = PSerial_read(1);
 	PSerial_write(0, rx_bit);
-	*/
 }
 
