@@ -89,6 +89,10 @@
   <avrgcc.linker.libraries.LibrarySearchPaths>
     <ListValues>
       <Value>C:\Users\andyr\Documents\Atmel Studio\SerialComm\SerialComm</Value>
+<<<<<<< HEAD
+=======
+      <Value>C:\Users\cookab1\Downloads\SoftwareSerial\SoftwareSerial\SoftwareSerial</Value>
+>>>>>>> 8c1186f3b94d135e148c49e0191ba0b91e23e0fc
     </ListValues>
   </avrgcc.linker.libraries.LibrarySearchPaths>
   <avrgcc.assembler.general.IncludePaths>
@@ -136,6 +140,10 @@
   <avrgcc.linker.libraries.LibrarySearchPaths>
     <ListValues>
       <Value>C:\Users\andyr\Documents\Atmel Studio\SerialComm\SerialComm</Value>
+<<<<<<< HEAD
+=======
+      <Value>C:\Users\cookab1\Downloads\SoftwareSerial\SoftwareSerial\SoftwareSerial</Value>
+>>>>>>> 8c1186f3b94d135e148c49e0191ba0b91e23e0fc
     </ListValues>
   </avrgcc.linker.libraries.LibrarySearchPaths>
   <avrgcc.assembler.general.IncludePaths>

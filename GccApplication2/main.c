@@ -16,7 +16,7 @@
 //PIN11 is the receiving pin I think
 //When does it start
 //When does it stop
-//What does it do in the middle
+//What does it do in the middle	
 
 void delay_usec(unsigned int);
 
@@ -51,11 +51,18 @@ int main(void) {
 char sw_serial_getc(void) {
 	char c = 0;
 	int i;
+	while((PORTB & 0x20)) {
+	}
+	delay_usec(bitTime * 1.5);
 	for(i = 0; i < 8; i++) {
 		if (i == 0)
-		c = PINB;
+			c = PINB;
 		else
+<<<<<<< HEAD
 		c |= (PINB << i);
+=======
+			c |= (PINB << i);
+>>>>>>> 8c1186f3b94d135e148c49e0191ba0b91e23e0fc
 		delay_usec(bitTime);
 	}
 	BITBANG(0);
