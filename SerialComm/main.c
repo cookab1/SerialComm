@@ -21,7 +21,7 @@ int main(void)
 	portNum = 0;
 	baud = 19200L;
 	framingParam = SERIAL_8N1;
-	int daisyChain = 1;
+	int daisyChain = 0; //to turn on daisy chain, set to 1
 	
 	if(daisyChain) {
 		for(int i = 0; i < 4; i++)
